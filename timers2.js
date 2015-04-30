@@ -1,11 +1,11 @@
-var reset = document.querySelector("#reset")
-var start = document.querySelector("#start")
-var pause = document.querySelector("#pause")
-var countDown = document.querySelector("#countdown")
-var timer = document.querySelector("#timer")
+var reset = $("#reset")
+var start = $("#start")
+var pause = $("#pause")
+var countDown = $("#countdown")
+var timer = $("#timer")
 
-var intervalID;
-var intervalIDCountDown;
+var countUp;
+var countDown;
 
 var secondCounter = 0
 var minuteCounter = 0
@@ -13,42 +13,41 @@ var hundredthSecondCounter = 0
 
 var hexArray = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"]
 
-start.addEventListener("click", startWatch)
-reset.addEventListener("click", resetWatch)
-pause.addEventListener("click", pauseWatch)
-countDown.addEventListener("click", startCountDown)
+start.on("click", startWatch)
+reset.on("click", resetWatch)
+pause.on("click", pauseWatch)
+countDown.on("click", startCountDown)
 
 function startWatch() {
-  clearInterval(intervalIDCountDown);
-  intervalID = setInterval(tick, 10)
+  clearInterval(countDown);
+  countUp = setInterval(tick, 10)
 }
 
 function resetWatch() {
-  clearInterval(intervalID);
-  clearInterval(intervalIDCountDown);
+  clearInterval(countUp);
+  clearInterval(countDown);
 
-  timer.innerHTML = "Stop Watch"
+  timer.html("Stop Watch")
   secondCounter = 0
   minuteCounter = 0
   hundredthSecondCounter = 0
 }
 
 function pauseWatch() {
-  clearInterval(intervalID);
-  clearInterval(intervalIDCountDown);
+  clearInterval(countUp);
+  clearInterval(countDown);
 }
 
 function startCountDown() {
-  clearInterval(intervalID);
-  intervalIDCountDown = setInterval(unTick, 10)
+  clearInterval(countUp);
+  countDown = setInterval(unTick, 10)
 }
 
-
 function unTick () {
-  timer.innerHTML = "Time elapsed: " + leadingZero(minuteCounter) + ":" + leadingZero(secondCounter)+ ":" + leadingZero(hundredthSecondCounter)
+  timer.html("Time elapsed: " + leadingZero(minuteCounter) + ":" + leadingZero(secondCounter)+ ":" + leadingZero(hundredthSecondCounter))
 
   if (secondCounter === 0 && minuteCounter === 0 && hundredthSecondCounter === 0 ){
-    clearInterval(intervalIDCountDown);
+    clearInterval(countDown);
   }
   if (hundredthSecondCounter === 0 && secondCounter > 0) {
     secondCounter --
@@ -79,11 +78,13 @@ function tick () {
       hexColor += hexNumber
     }
     console.log(hexColor)
-    document.body.style.backgroundColor = hexColor
-
+    // document.body.style.backgroundColor = hexColor
+    $(".main").css({
+        "background-color":hexColor
+    })
 
   }
-  timer.innerHTML = "Time elapsed: " + leadingZero(minuteCounter) + ":" + leadingZero(secondCounter) + ":" + leadingZero(hundredthSecondCounter)
+  timer.html("Time elapsed: " + leadingZero(minuteCounter) + ":" + leadingZero(secondCounter) + ":" + leadingZero(hundredthSecondCounter))
   hundredthSecondCounter ++
 }
 
