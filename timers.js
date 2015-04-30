@@ -11,6 +11,8 @@ var secondCounter = 0
 var minuteCounter = 0
 var hundredthSecondCounter = 0
 
+var hexArray = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"]
+
 start.addEventListener("click", startWatch)
 reset.addEventListener("click", resetWatch)
 pause.addEventListener("click", pauseWatch)
@@ -73,6 +75,17 @@ function tick () {
   if (secondCounter === 60) {
     secondCounter = 0
     minuteCounter ++
+    var hexColor = "#"
+    for(var i =0; i <6; i++){
+      var randNumber = Math.floor(Math.random() * 16);
+      console.log(randNumber)
+      var hexNumber = hexArray[randNumber]
+      hexColor += hexNumber
+    }
+    console.log(hexColor)
+    document.body.style.backgroundColor = hexColor
+
+
   }
   timer.innerHTML = "Time elapsed: " + leadingZero(minuteCounter) + ":" + leadingZero(secondCounter) + ":" + leadingZero(hundredthSecondCounter)
   hundredthSecondCounter ++
@@ -80,17 +93,4 @@ function tick () {
 
 function leadingZero(n){
   return n > 9 ? n : "0" + n;
-}
-
-function leadingZeroes(n){
-  if(n < 10) {
-    return "000" + n
-  }
-  else if (n >=10 && n < 100) {
-    return "00" + n
-  }
-  else  {
-    //(n >= 100 && n <1000)
-    return "0" + n
-  }
 }
